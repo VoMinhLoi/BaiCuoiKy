@@ -12,6 +12,7 @@ import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.quanlyquanao.Class.Order;
 import com.example.quanlyquanao.Class.Product;
 import com.example.quanlyquanao.Fragment.CartFragment;
+import com.example.quanlyquanao.Fragment.DetailProductFragment;
 import com.example.quanlyquanao.Fragment.HistoryFragment;
 import com.example.quanlyquanao.Fragment.OrderInfoFragment;
 import com.example.quanlyquanao.Fragment.ProductFragment;
@@ -91,9 +92,16 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-    // endregion Private Menthod
-
-    // region Public Menthod
+    // Mở Fragment DetailProduct
+    public void toDetailProductFragment(Product product){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.contet_frame, new DetailProductFragment(product,listCartProduct));
+        fragmentTransaction.commit();
+    }
+    // Thêm sản phẩm đã chọn vào giỏ hàng
+    public void addToListCartProdct(Product product){
+        listCartProduct.add(product);
+    }
 
     // Set số lượng các sản phẩm trong giỏ hàng
     public void setCountProductInCart(int count){
