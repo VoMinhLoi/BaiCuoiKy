@@ -12,6 +12,7 @@ import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.quanlyquanao.Class.Order;
 import com.example.quanlyquanao.Class.Product;
 import com.example.quanlyquanao.Fragment.CartFragment;
+import com.example.quanlyquanao.Fragment.DetailProductFragment;
 import com.example.quanlyquanao.Fragment.HistoryFragment;
 import com.example.quanlyquanao.Fragment.OrderInfoFragment;
 import com.example.quanlyquanao.Fragment.ProductFragment;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initItem();
         setDataBotNavHome();
     }
 // khởi tạo các item
@@ -91,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-    // endregion Private Menthod
 
-    // region Public Menthod
+    // Mở Fragment DetailProduct
+
 
     // Set số lượng các sản phẩm trong giỏ hàng
     public void setCountProductInCart(int count){

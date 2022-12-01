@@ -1,13 +1,6 @@
 package com.example.quanlyquanao.Fragment;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -18,10 +11,16 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.example.quanlyquanao.Activity.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.quanlyquanao.Adapter.ProductAdapter;
 import com.example.quanlyquanao.Class.Product;
 import com.example.quanlyquanao.Class.SlidePhoto;
+import com.example.quanlyquanao.Home;
 import com.example.quanlyquanao.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,11 +35,11 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-
 public class ProductFragment extends Fragment {
 
+    // region Variable
 
-    private MainActivity mainActivity;
+    private Home home;
     private Timer mTimer;
     private List<SlidePhoto> listSlidePhoto;
     private List<Product> listAllProduct;
@@ -52,7 +51,9 @@ public class ProductFragment extends Fragment {
     private AutoCompleteTextView atcProductSearch;
 
     private ProductAdapter productAdapter;
+    private SlidePhotoAdapter slidePhotoAdapter;
 
+    // endregion Variable
 
     public ProductFragment() {
     }
@@ -65,7 +66,8 @@ public class ProductFragment extends Fragment {
         // Khởi tạo các item
         initItem();
 
-
+        // Set Adapter cho viewPagerSlidePhoto
+        setDataSlidePhotoAdapter();
 
         // Set Adapter cho rcvProduct
         setDataProductAdapter();
@@ -85,10 +87,19 @@ public class ProductFragment extends Fragment {
         listSlidePhoto = getListSlidePhoto();
         listAllProduct = getDataProduct();
 
-        mainActivity = (MainActivity) getActivity();
+        home = (Home) getActivity();
     }
 
+    // Set Adapter cho viewPagerSlidePhoto
+    private void setDataSlidePhotoAdapter(){
+        slidePhotoAdapter = new SlidePhotoAdapter(listSlidePhoto, this);
+        viewPagerSlidePhoto.setAdapter(slidePhotoAdapter);
+        circleIndicator.setViewPager(viewPagerSlidePhoto);
+        slidePhotoAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
+        // Auto chuyển các slide photo
+        autoSildeImage();
+    }
 
     // Auto chuyển các slide photo
     private void autoSildeImage(){
@@ -125,16 +136,28 @@ public class ProductFragment extends Fragment {
     // Set Adapter cho rcvProduct
     private void setDataProductAdapter(){
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mainActivity, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(home, 2);
         rcvProduct.setLayoutManager(gridLayoutManager);
 
         productAdapter = new ProductAdapter();
-        productAdapter.setData(listAllProduct,mainActivity);
+        productAdapter.setData(listAllProduct,home);
 
         rcvProduct.setAdapter(productAdapter);
     }
 
+    // Set Adapter cho atcProductSearch
+    private void setProductSearchAdapter(List<Product> listProduct ){
+        ProductSearchAdapter productSearchAdapter = new ProductSearchAdapter(home, R.layout.item_search, listProduct);
+        atcProductSearch.setAdapter(productSearchAdapter);
 
+        // Sau khi chọn item search sẽ chuyển sang fragment detail
+        atcProductSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                home.toDetailProductFragment(listProduct.get(position));
+            }
+        });
+    }
 
     // Lấy Product để vào slide
     private List<SlidePhoto> getListSlidePhoto(){
@@ -164,6 +187,7 @@ public class ProductFragment extends Fragment {
                     product.setId(data.getKey());
                     mListProduct.add(product);
                 }
+                setProductSearchAdapter(mListProduct);
             }
 
             @Override
@@ -175,5 +199,7 @@ public class ProductFragment extends Fragment {
         });
         return mListProduct;
     }
+
+    // endregion
 
 }
