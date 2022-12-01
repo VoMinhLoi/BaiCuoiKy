@@ -2,65 +2,179 @@ package com.example.quanlyquanao.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
+import com.example.quanlyquanao.Activity.MainActivity;
+import com.example.quanlyquanao.Adapter.ProductAdapter;
+import com.example.quanlyquanao.Class.Product;
+import com.example.quanlyquanao.Class.SlidePhoto;
 import com.example.quanlyquanao.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProductFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import me.relex.circleindicator.CircleIndicator;
+
+
 public class ProductFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // region Variable
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private MainActivity mainActivity;
+    private Timer mTimer;
+    private List<SlidePhoto> listSlidePhoto;
+    private List<Product> listAllProduct;
+
+    private View mView;
+    private RecyclerView rcvProduct;
+    private ViewPager viewPagerSlidePhoto;
+    private CircleIndicator circleIndicator;
+    private AutoCompleteTextView atcProductSearch;
+
+    private ProductAdapter productAdapter;
+
+    // endregion Variable
 
     public ProductFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment product.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProductFragment newInstance(String param1, String param2) {
-        ProductFragment fragment = new ProductFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product, container, false);
+        mView = inflater.inflate(R.layout.fragment_product, container, false);
+
+        // Khởi tạo các item
+        initItem();
+
+        // Set Adapter cho viewPagerSlidePhoto
+
+        // Set Adapter cho rcvProduct
+        setDataProductAdapter();
+
+        return mView;
+    }
+
+    // region Private menthod
+
+    // Khởi tạo các item
+    private void initItem(){
+        rcvProduct = mView.findViewById(R.id.rcv_product);
+        viewPagerSlidePhoto = mView.findViewById(R.id.vp_slide_photo);
+        circleIndicator = mView.findViewById(R.id.circle_indicator);
+        atcProductSearch = mView.findViewById(R.id.atc_product_search);
+
+        listSlidePhoto = getListSlidePhoto();
+        listAllProduct = getDataProduct();
+
+        mainActivity = (MainActivity) getActivity();
+    }
+
+
+
+    // Auto chuyển các slide photo
+    private void autoSildeImage(){
+        if(listSlidePhoto == null || listSlidePhoto.isEmpty() || viewPagerSlidePhoto == null){
+            return;
+        }
+        if (mTimer == null){
+            mTimer = new Timer();
+        }
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int currentItem = viewPagerSlidePhoto.getCurrentItem();
+                        int totalItem = listSlidePhoto.size() - 1;
+
+                        // Nếu item hiện tại chưa phải cuối cùng
+                        if(currentItem < totalItem){
+                            currentItem++;
+                            viewPagerSlidePhoto.setCurrentItem(currentItem);
+                        }else {
+                            viewPagerSlidePhoto.setCurrentItem(0);
+                        }
+                    }
+                });
+            }
+
+            // xử lý thêm để set time
+        },500,3000 );
+    }
+
+    // Set Adapter cho rcvProduct
+    private void setDataProductAdapter(){
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mainActivity, 2);
+        rcvProduct.setLayoutManager(gridLayoutManager);
+
+        productAdapter = new ProductAdapter();
+        productAdapter.setData(listAllProduct,mainActivity);
+
+        rcvProduct.setAdapter(productAdapter);
+    }
+
+
+
+    // Lấy Product để vào slide
+    private List<SlidePhoto> getListSlidePhoto(){
+        List<SlidePhoto> listSlidePhoto = new ArrayList<>();
+        listSlidePhoto.add(new SlidePhoto(R.drawable.slide1));
+        listSlidePhoto.add(new SlidePhoto(R.drawable.slide2));
+        listSlidePhoto.add(new SlidePhoto(R.drawable.slide3));
+        listSlidePhoto.add(new SlidePhoto(R.drawable.slide4));
+        listSlidePhoto.add(new SlidePhoto(R.drawable.slide5));
+        return listSlidePhoto;
+    }
+
+    // Lấy dữ liệu Product từ FireBase
+    private List<Product> getDataProduct(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("DBProduct");
+
+        List<Product> mListProduct = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                productAdapter.notifyDataSetChanged();
+
+                for (DataSnapshot data : snapshot.getChildren()){
+                    Product product = data.getValue(Product.class);
+                    product.setId(data.getKey());
+                    mListProduct.add(product);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(),"Không tải được dữ liệu từ firebase"
+                        +error.toString(),Toast.LENGTH_LONG).show();
+                Log.d("MYTAG","onCancelled"+ error.toString());
+            }
+        });
+        return mListProduct;
     }
 }
