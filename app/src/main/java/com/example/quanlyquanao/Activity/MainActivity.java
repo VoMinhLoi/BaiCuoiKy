@@ -1,15 +1,19 @@
 package com.example.quanlyquanao.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
+import com.example.quanlyquanao.Class.Order;
 import com.example.quanlyquanao.Class.Product;
 import com.example.quanlyquanao.Fragment.CartFragment;
 import com.example.quanlyquanao.Fragment.HistoryFragment;
+import com.example.quanlyquanao.Fragment.OrderInfoFragment;
 import com.example.quanlyquanao.Fragment.ProductFragment;
 import com.example.quanlyquanao.R;
 
@@ -20,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private AHBottomNavigation ahBotNavHome;
 
     private List<Product> listCartProduct;
-
+    private int countProduct;
     private FragmentTransaction fragmentTransaction;
 
     @Override
@@ -72,12 +76,53 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 1:
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.contet_frame, new CartFragment(listCartProduct));
+                        fragmentTransaction.commit();
                         break;
                     case 2:
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.contet_frame, new HistoryFragment());
+                        fragmentTransaction.commit();
                         break;
                 }
                 return true;
             }
         });
       }
+
+    // endregion Private Menthod
+
+    // region Public Menthod
+
+    // Set số lượng các sản phẩm trong giỏ hàng
+    public void setCountProductInCart(int count){
+        countProduct = count;
+        AHNotification notification = new AHNotification.Builder()
+                .setText(String.valueOf(count))
+                .setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.red))
+                .setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white))
+                .build();
+        ahBotNavHome.setNotification(notification, 1);
     }
+    // Mở Fragment OrderInfo
+    public void toOrderInfoFragment(Order orderInfo){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.contet_frame, new OrderInfoFragment(orderInfo));
+        fragmentTransaction.addToBackStack(OrderInfoFragment.TAG);
+        fragmentTransaction.commit();
+    }
+    // Set lại số lượng của sản phẩm khi mua nhiều
+    public void setCountForProduct(int possion, int countProduct){
+        listCartProduct.get(possion).setNumProduct(countProduct);
+    }
+
+    // Lấy ra các sản phẩm đã thêm vào giỏ hàng
+    public List<Product> getListCartProduct() {
+        return listCartProduct;
+    }
+    // Lấy ra số lượng các sản phẩm đã thêm vào giỏ hàng
+    public int getCountProduct() {
+        return countProduct;
+    }
+}
