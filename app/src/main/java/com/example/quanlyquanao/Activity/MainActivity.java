@@ -94,8 +94,11 @@ public class MainActivity extends AppCompatActivity {
       }
 
 
-    // Mở Fragment DetailProduct
 
+    // Thêm sản phẩm đã chọn vào giỏ hàng
+    public void addToListCartProdct(Product product){
+        listCartProduct.add(product);
+    }
 
     // Set số lượng các sản phẩm trong giỏ hàng
     public void setCountProductInCart(int count){
@@ -114,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(OrderInfoFragment.TAG);
         fragmentTransaction.commit();
     }
+
+
     // Set lại số lượng của sản phẩm khi mua nhiều
     public void setCountForProduct(int possion, int countProduct){
         listCartProduct.get(possion).setNumProduct(countProduct);

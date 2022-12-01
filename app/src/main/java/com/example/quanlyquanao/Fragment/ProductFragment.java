@@ -64,9 +64,6 @@ public class ProductFragment extends Fragment {
 
         // Khởi tạo các item
         initItem();
-
-
-
         // Set Adapter cho rcvProduct
         setDataProductAdapter();
 

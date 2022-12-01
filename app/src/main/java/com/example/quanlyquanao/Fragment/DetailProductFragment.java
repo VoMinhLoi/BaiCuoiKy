@@ -7,60 +7,116 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.quanlyquanao.Activity.MainActivity;
+import com.example.quanlyquanao.Class.Product;
 import com.example.quanlyquanao.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailProductFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class DetailProductFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // region Variable
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private DecimalFormat format = new DecimalFormat("###,###,###");
 
-    public DetailProductFragment() {
-        // Required empty public constructor
-    }
+    // Kiểm tra Product đã được thêm vào cart chưa
+    private Boolean isAddToCart;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment detail_product.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetailProductFragment newInstance(String param1, String param2) {
-        DetailProductFragment fragment = new DetailProductFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    // Activity
+    private MainActivity mainActivity;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    // View
+    private View mView;
+    private Product detailProduct;
+    private List<Product> listCartProduct;
+    private TextView tvDetailProductName,tvDetailProductPrice,tvDetailProductDescription;
+    private Button btnDetailProductBuy;
+    private ImageView imgDetailProductPhoto;
+    // endregion Variable
+
+    public DetailProductFragment(Product product,List<Product> listProduct) {
+        detailProduct = product;
+        listCartProduct = listProduct;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_product, container, false);
+        mView = inflater.inflate(R.layout.fragment_detail_product, container, false);
+
+        initItem();
+
+        setValueItem();
+
+        return mView;
     }
+
+    // region Private menthod
+
+    // Khởi tạo các item
+    private void initItem(){
+
+        isAddToCart = false;
+        mainActivity = (MainActivity) getActivity();
+        tvDetailProductName = mView.findViewById(R.id.tv_detail_product_name);
+        tvDetailProductPrice = mView.findViewById(R.id.tv_detail_product_price);
+        tvDetailProductDescription = mView.findViewById(R.id.tv_detail_product_description);
+        imgDetailProductPhoto = mView.findViewById(R.id.img_detail_product_photo);
+        btnDetailProductBuy = mView.findViewById(R.id.btn_detail_product_buy);
+
+        if(listCartProduct == null){
+            listCartProduct = new ArrayList<>();
+        }
+    }
+
+    // set giá trị cho các item
+    private void setValueItem(){
+        if (detailProduct != null){
+            tvDetailProductName.setText(detailProduct.getProductName());
+            tvDetailProductPrice.setText(format.format(detailProduct.getProductPrice() ) + " VNĐ");
+            Glide.with(getContext()).load(detailProduct.getUrlImg()).into(imgDetailProductPhoto);
+            tvDetailProductDescription.setText(detailProduct.getDescription());
+
+            // Kiểm tra sản phẩm đã dc add vào giỏ hay chưa
+            for (int i = 0;i< listCartProduct.size();i++){
+
+                // Nếu sản  phẩm đã dc add
+                if (listCartProduct.get(i).getProductName().equals(detailProduct.getProductName())){
+                    isAddToCart = true;
+                    btnDetailProductBuy.setText("Đã Mua");
+                    btnDetailProductBuy.setBackgroundResource(R.drawable.custom_button_gray);
+                    break;
+                }
+            }
+
+            btnDetailProductBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isAddToCart){
+                        Toast.makeText(getActivity(),"Sản Phẩm này đã tồn tại trong giỏ hàng",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        isAddToCart = true;
+                        btnDetailProductBuy.setText("Đã Mua");
+                        btnDetailProductBuy.setBackgroundResource(R.drawable.custom_button_gray);
+                        mainActivity.addToListCartProdct(detailProduct);
+                        mainActivity.setCountProductInCart(mainActivity.getCountProduct() + 1);
+                        Toast.makeText(getActivity(),"Đã thêm sản phẩm vào giỏ hàng",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    // endregion Private menthod
+
 }
