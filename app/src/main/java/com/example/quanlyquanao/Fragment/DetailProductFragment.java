@@ -60,8 +60,6 @@ public class DetailProductFragment extends Fragment {
         return mView;
     }
 
-    // region Private menthod
-
     // Khởi tạo các item
     private void initItem(){
 
@@ -79,18 +77,18 @@ public class DetailProductFragment extends Fragment {
     }
 
     // set giá trị cho các item
-    private void setValueItem(){
-        if (detailProduct != null){
+    private void setValueItem() {
+        if (detailProduct != null) {
             tvDetailProductName.setText(detailProduct.getProductName());
-            tvDetailProductPrice.setText(format.format(detailProduct.getProductPrice() ) + " VNĐ");
+            tvDetailProductPrice.setText(format.format(detailProduct.getProductPrice()) + " VNĐ");
             Glide.with(getContext()).load(detailProduct.getUrlImg()).into(imgDetailProductPhoto);
             tvDetailProductDescription.setText(detailProduct.getDescription());
 
             // Kiểm tra sản phẩm đã dc add vào giỏ hay chưa
-            for (int i = 0;i< listCartProduct.size();i++){
+            for (int i = 0; i < listCartProduct.size(); i++) {
 
                 // Nếu sản  phẩm đã dc add
-                if (listCartProduct.get(i).getProductName().equals(detailProduct.getProductName())){
+                if (listCartProduct.get(i).getProductName().equals(detailProduct.getProductName())) {
                     isAddToCart = true;
                     btnDetailProductBuy.setText("Đã Mua");
                     btnDetailProductBuy.setBackgroundResource(R.drawable.custom_button_gray);
@@ -101,22 +99,18 @@ public class DetailProductFragment extends Fragment {
             btnDetailProductBuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (isAddToCart){
-                        Toast.makeText(getActivity(),"Sản Phẩm này đã tồn tại trong giỏ hàng",Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    if (isAddToCart) {
+                        Toast.makeText(getActivity(), "Sản Phẩm này đã tồn tại trong giỏ hàng", Toast.LENGTH_SHORT).show();
+                    } else {
                         isAddToCart = true;
                         btnDetailProductBuy.setText("Đã Mua");
                         btnDetailProductBuy.setBackgroundResource(R.drawable.custom_button_gray);
                         mainActivity.addToListCartProdct(detailProduct);
                         mainActivity.setCountProductInCart(mainActivity.getCountProduct() + 1);
-                        Toast.makeText(getActivity(),"Đã thêm sản phẩm vào giỏ hàng",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Đã thêm sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
-
-    // endregion Private menthod
-
 }

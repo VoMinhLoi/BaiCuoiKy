@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.quanlyquanao.Activity.MainActivity;
 import com.example.quanlyquanao.Adapter.ProductAdapter;
+import com.example.quanlyquanao.Adapter.ProductSearchAdapter;
+import com.example.quanlyquanao.Adapter.SlidePhotoAdapter;
 import com.example.quanlyquanao.Class.Product;
 import com.example.quanlyquanao.Class.SlidePhoto;
 import com.example.quanlyquanao.R;
@@ -39,7 +41,6 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class ProductFragment extends Fragment {
 
-
     private MainActivity mainActivity;
     private Timer mTimer;
     private List<SlidePhoto> listSlidePhoto;
@@ -52,7 +53,9 @@ public class ProductFragment extends Fragment {
     private AutoCompleteTextView atcProductSearch;
 
     private ProductAdapter productAdapter;
+    private SlidePhotoAdapter slidePhotoAdapter;
 
+    // endregion Variable
 
     public ProductFragment() {
     }
@@ -64,6 +67,10 @@ public class ProductFragment extends Fragment {
 
         // Khởi tạo các item
         initItem();
+
+        // Set Adapter cho viewPagerSlidePhoto
+        setDataSlidePhotoAdapter();
+
         // Set Adapter cho rcvProduct
         setDataProductAdapter();
 
@@ -85,7 +92,16 @@ public class ProductFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
     }
 
+    // Set Adapter cho viewPagerSlidePhoto
+    private void setDataSlidePhotoAdapter(){
+        slidePhotoAdapter = new SlidePhotoAdapter(listSlidePhoto, this);
+        viewPagerSlidePhoto.setAdapter(slidePhotoAdapter);
+        circleIndicator.setViewPager(viewPagerSlidePhoto);
+        slidePhotoAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
+        // Auto chuyển các slide photo
+        autoSildeImage();
+    }
 
     // Auto chuyển các slide photo
     private void autoSildeImage(){
@@ -131,7 +147,19 @@ public class ProductFragment extends Fragment {
         rcvProduct.setAdapter(productAdapter);
     }
 
+    // Set Adapter cho atcProductSearch
+    private void setProductSearchAdapter(List<Product> listProduct ){
+        ProductSearchAdapter productSearchAdapter = new ProductSearchAdapter(mainActivity,R.layout.item_search, listProduct);
+        atcProductSearch.setAdapter(productSearchAdapter);
 
+        // Sau khi chọn item search sẽ chuyển sang fragment detail
+        atcProductSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mainActivity.toDetailProductFragment(listProduct.get(position));
+            }
+        });
+    }
 
     // Lấy Product để vào slide
     private List<SlidePhoto> getListSlidePhoto(){
@@ -161,8 +189,8 @@ public class ProductFragment extends Fragment {
                     product.setId(data.getKey());
                     mListProduct.add(product);
                 }
+                setProductSearchAdapter(mListProduct);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getActivity(),"Không tải được dữ liệu từ firebase"
@@ -172,5 +200,4 @@ public class ProductFragment extends Fragment {
         });
         return mListProduct;
     }
-
 }

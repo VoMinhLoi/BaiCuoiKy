@@ -93,8 +93,12 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-
-
+    // Mở Fragment DetailProduct
+    public void toDetailProductFragment(Product product){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.contet_frame, new DetailProductFragment(product,listCartProduct));
+        fragmentTransaction.commit();
+    }
     // Thêm sản phẩm đã chọn vào giỏ hàng
     public void addToListCartProdct(Product product){
         listCartProduct.add(product);
