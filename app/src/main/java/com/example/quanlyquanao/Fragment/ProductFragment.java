@@ -160,7 +160,6 @@ public class ProductFragment extends Fragment {
             }
         });
     }
-
     // Lấy Product để vào slide
     private List<SlidePhoto> getListSlidePhoto(){
         List<SlidePhoto> listSlidePhoto = new ArrayList<>();
@@ -191,6 +190,7 @@ public class ProductFragment extends Fragment {
                 }
                 setProductSearchAdapter(mListProduct);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getActivity(),"Không tải được dữ liệu từ firebase"
