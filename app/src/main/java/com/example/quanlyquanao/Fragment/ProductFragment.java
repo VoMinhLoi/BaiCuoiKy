@@ -91,7 +91,6 @@ public class ProductFragment extends Fragment {
 
         mainActivity = (MainActivity) getActivity();
     }
-
     // Set Adapter cho viewPagerSlidePhoto
     private void setDataSlidePhotoAdapter(){
         slidePhotoAdapter = new SlidePhotoAdapter(listSlidePhoto, this);
