@@ -32,9 +32,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Khởi tạo các item
+        initItem();
 
+        // Set data cho ahBotNavHome
         setDataBotNavHome();
     }
+// region  Private Menthod
 // khởi tạo các item
     private void initItem() {
         ahBotNavHome = findViewById(R.id.ahbotnav_home);
