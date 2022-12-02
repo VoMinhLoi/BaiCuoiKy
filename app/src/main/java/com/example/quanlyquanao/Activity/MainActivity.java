@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         // Set data cho ahBotNavHome
         setDataBotNavHome();
     }
-// region  Private Menthod
-// khởi tạo các item
+    // region  Private Menthod
+    // khởi tạo các item
     private void initItem() {
         ahBotNavHome = findViewById(R.id.ahbotnav_home);
         if(listCartProduct == null){

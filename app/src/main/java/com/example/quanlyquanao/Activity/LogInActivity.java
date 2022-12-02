@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ public class LogInActivity extends AppCompatActivity {
     Button logInBT, signInBT;
     String userString, passString;
     FirebaseAuth mAuth;
+    CheckBox rememberCB;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,7 @@ public class LogInActivity extends AppCompatActivity {
         AnhXa();
         GetDataFromEditText();
         mAuth = FirebaseAuth.getInstance();
+        GetDataBySharePreferences();
         logInBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +56,7 @@ public class LogInActivity extends AppCompatActivity {
         passET = findViewById(R.id.password);
         logInBT = findViewById(R.id.loginbtn);
         signInBT = findViewById(R.id.buttonSignUp_Login);
+        rememberCB = findViewById(R.id.checkBoxRemember);
     }
     public void GetDataFromEditText(){
         userString = userNameET.getText().toString();
@@ -66,6 +72,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    RememberPassWord();
                     Toast.makeText(activity, "LogIn Successful", Toast.LENGTH_SHORT).show();
                     ConvertFromLogInToHome();
                 }
@@ -77,5 +84,27 @@ public class LogInActivity extends AppCompatActivity {
     public void ConvertFromLogInToSignUp(){
         Intent intent = new Intent(activity, SignUpActivity.class);
         startActivity(intent);
+    }
+    public void RememberPassWord(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if(rememberCB.isChecked()){
+//            SharedPreferences remember = (SharedPreferences) sharedPreferences.edit();
+            editor.putString("gmail", userString);
+            editor.putString("pass",passString);
+            editor.putBoolean("remember", true);
+            editor.commit();
+        }
+        else{
+            editor.remove("gmail");
+            editor.remove("pass");
+            editor.remove("remember");
+            editor.commit();
+        }
+    }
+    public void GetDataBySharePreferences(){
+        sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+        userNameET.setText(sharedPreferences.getString("gmail",""));
+        passET.setText(sharedPreferences.getString("pass",""));
+        rememberCB.setChecked(sharedPreferences.getBoolean("remember",false));
     }
 }

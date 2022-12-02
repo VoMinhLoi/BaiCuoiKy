@@ -3,11 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/DH_Nam3_Ki1/BTnhomcuoiki/AppBanAoQuan/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
-        <entry key="..\:/DH_Nam3_Ki1/BTnhomcuoiki/AppBanAoQuan/app/src/main/res/layout/activity_signup.xml" value="0.22826086956521738" />
-        <entry key="..\:/DH_Nam3_Ki1/BTnhomcuoiki/AppBanAoQuan/app/src/main/res/layout/item_search.xml" value="0.22826086956521738" />
-        <entry key="..\:/DH_Nam3_Ki1/BTnhomcuoiki/AppBanAoQuan/app/src/main/res/layout/item_slide_photo.xml" value="0.22826086956521738" />
-        <entry key="..\:/DH_Nam3_Ki1/BTnhomcuoiki/AppBanAoQuan/app/src/main/res/layout/loi.xml" value="0.22826086956521738" />
+        <entry key="..\:/DH_Nam3_Ki1/BTnhomcuoiki/AppBanAoQuan/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/LANGUAUE/AndroidStudio/AppBanAoQuan/app/src/main/res/drawable/custom_button.xml" value="0.1775" />
         <entry key="..\:/LANGUAUE/AndroidStudio/AppBanAoQuan/app/src/main/res/drawable/custom_edit_text.xml" value="0.1775" />
         <entry key="..\:/LANGUAUE/AndroidStudio/AppBanAoQuan/app/src/main/res/drawable/ic_baseline_account_box_24.xml" value="0.1775" />
@@ -25,13 +21,9 @@
         <entry key="..\:/Users/ADMIN/Desktop/AppBanAoQuan/app/src/main/res/layout/fragment_history.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/ADMIN/Desktop/AppBanAoQuan/app/src/main/res/layout/item_history.xml" value="0.1" />
         <entry key="..\:/Users/PC/Downloads/QuanLyQuanAo/app/src/main/res/layout/activity_home.xml" value="0.1" />
-<<<<<<< HEAD
-        <entry key="..\:/Users/PC/Downloads/QuanLyQuanAo/app/src/main/res/layout/activity_main.xml" value="0.1" />
-=======
         <entry key="..\:/Users/PC/Downloads/QuanLyQuanAo/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/PC/Downloads/QuanLyQuanAo/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/PC/Downloads/QuanLyQuanAo/app/src/main/res/layout/activity_signup.xml" value="0.25" />
->>>>>>> b58999da39a236f055c1854874c411682ad58c06
       </map>
     </option>
   </component>

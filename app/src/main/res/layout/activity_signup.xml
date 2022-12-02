@@ -56,7 +56,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/inputusername">
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/passwordSU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,10 +64,10 @@
         android:paddingStart="0dp"
         android:textColor="@color/black"
         android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#FFFFFF" />
+        android:textColorHint="#FFFFFF"
+        android:inputType="textPassword" />
 
   </com.google.android.material.textfield.TextInputLayout>
-
   <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/inputname"
       android:layout_width="330dp"
