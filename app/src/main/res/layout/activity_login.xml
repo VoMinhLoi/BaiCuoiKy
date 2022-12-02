@@ -153,13 +153,16 @@
         app:iconTint="#FFFFFF" />
 
     <CheckBox
+
         android:id="@+id/checkBoxRemember"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+
         android:layout_marginTop="468dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="100dp"
+
         android:text="Remember me"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />

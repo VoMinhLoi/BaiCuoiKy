@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.quanlyquanao.R;
@@ -22,7 +25,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
     Activity activity = SignUpActivity.this;
-    TextInputEditText userNameET, passET;
+    TextInputEditText userNameET;
+    EditText passET;
     Button signUpBT, logInBT;
     String userString, passString;
     FirebaseAuth mAuth;
@@ -36,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SignUp();
+                handler.postDelayed(runnable,3000);
             }
         });
         logInBT.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(activity, "SignUp Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "SignUp Successful", Toast.LENGTH_LONG).show();
                     ConvertFromSignUpToLogIn();
                 }
                 else
@@ -74,4 +78,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            SignUp();
+        }
+    };
 }
