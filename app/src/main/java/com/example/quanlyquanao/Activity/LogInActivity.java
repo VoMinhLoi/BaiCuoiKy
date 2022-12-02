@@ -41,7 +41,6 @@ public class LogInActivity extends AppCompatActivity {
         logInBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RememberPassWord();
                 LogIn();
             }
         });
@@ -73,6 +72,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    RememberPassWord();
                     Toast.makeText(activity, "LogIn Successful", Toast.LENGTH_SHORT).show();
                     ConvertFromLogInToHome();
                 }
