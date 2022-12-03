@@ -17,8 +17,8 @@
           android:layout_margin="0dp">
 
          <RelativeLayout
-             android:background = "#8BD5BE"
-             android:id = "@+id/relativelayout_img_productdetail"
+             android:background ="#8BD5BE"
+             android:id ="@+id/relativelayout_img_productdetail"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              >
@@ -28,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/aothun"></ImageView>
+                android:src="@drawable/aothun">
+            </ImageView>
          </RelativeLayout>
 
          <RelativeLayout
@@ -44,8 +45,8 @@
                 android:text="Ao thun"
                 android:textColor="@color/text_color"
                 android:textSize="30sp"
-                android:fontFamily = "sans-serif-condensed-medium"></TextView>
-
+                android:fontFamily = "sans-serif-condensed-medium">
+            </TextView>
             <TextView
                 android:id="@+id/tv_detail_product_price"
                 android:layout_width="match_parent"
@@ -53,11 +54,10 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/tv_detail_product_name"
                 android:layout_marginLeft="0dp"
-                android:text="20.900.000 Đ"
+                android:text="400.000 Đ"
                 android:textSize="20sp"
                 android:textColor="@color/red">
             </TextView>
-
             <Button
                 android:fontFamily="sans-serif-condensed"
                 android:id="@+id/btn_detail_product_buy"
@@ -71,7 +71,8 @@
                 android:text="+ thêm vào giỏ hàng"
                 android:textColor="@color/black"
                 android:textSize="15dp"
-                app:backgroundTint="@null"></Button>
+                app:backgroundTint="@null">
+            </Button>
 
             <TextView
                 android:textStyle="bold"
@@ -93,13 +94,9 @@
                 android:layout_marginTop = "5dp"
                 android:layout_marginBottom="30dp"
                 android:text="Quần áo phục vụ nhiều mục đích như: bảo vệ khỏi thời tiết, bề mặt thô ráp, đá sắc nhọn, thực vật gây ửng mẩn, côn trùng cắn, bằng cách tạo nên một rào cản giữa da và môi trường."
-                android:textSize="18dp"></TextView>
+                android:textSize="18dp">
+            </TextView>
          </RelativeLayout>
-
-
       </RelativeLayout>
-
    </ScrollView>
-
-
 </FrameLayout>

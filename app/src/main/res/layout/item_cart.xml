@@ -22,7 +22,9 @@
                 android:id="@+id/img_photo_cart"
                 android:layout_width="200dp"
                 android:layout_height="140dp"
-                android:src="@drawable/aothun"></ImageView>
+                android:src="@drawable/aothun">
+
+            </ImageView>
 
         </RelativeLayout>
 
@@ -40,7 +42,9 @@
                 android:layout_marginRight="10dp"
                 android:text=""
                 android:textColor="@color/text_color"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp">
+
+            </TextView>
 
             <TextView
                 android:id="@+id/tv_price_product_cart"
@@ -49,10 +53,11 @@
                 android:layout_below="@+id/tv_name_product_cart"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
-                android:text="20.990.00 VND"
+                android:text="400.000 VND"
                 android:textColor="@color/red"
-                android:textSize="15sp"></TextView>
+                android:textSize="15sp">
 
+            </TextView>
             <RelativeLayout
                 android:layout_below = "@+id/tv_price_product_cart"
                 android:layout_width="match_parent"
@@ -64,7 +69,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/ic_baseline_remove_circle_outline_24"></ImageView>
+                    android:src="@drawable/ic_baseline_remove_circle_outline_24">
+                </ImageView>
 
                 <TextView
                     android:id="@+id/tv_count_cart"
@@ -75,7 +81,9 @@
                     android:gravity="center"
                     android:text="1"
                     android:textColor="@color/text_color"
-                    android:textSize="20sp"></TextView>
+                    android:textSize="20sp">
+
+                </TextView>
 
                 <ImageView
                     android:id="@+id/img_plus_cart"
@@ -83,11 +91,10 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="60dp"
-                    android:src="@drawable/ic_baseline_add_circle_outline_24"></ImageView>
-
+                    android:src="@drawable/ic_baseline_add_circle_outline_24">
+                </ImageView>
             </RelativeLayout>
         </RelativeLayout>
-
         <ImageView
             android:id="@+id/img_remove_cart"
             android:layout_width="30dp"
@@ -95,7 +102,7 @@
             android:layout_below="@+id/img_photo_cart"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_baseline_delete_24"></ImageView>
-
+            android:src="@drawable/ic_baseline_delete_24">
+        </ImageView>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

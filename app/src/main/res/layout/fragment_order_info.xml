@@ -181,7 +181,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/tv_order_info_text7"
                 android:layout_toRightOf="@+id/tv_order_info_text6"
-                android:text="30,000,000 VNĐ"
+                android:text="1,300,000 VNĐ"
                 android:textSize="15sp"
                 android:textColor="@color/red">
             </TextView>
@@ -251,9 +251,6 @@
                 android:backgroundTint="@null"
                 app:backgroundTint="@null">
             </Button>
-
         </RelativeLayout>
-
     </ScrollView>
-
 </FrameLayout>
