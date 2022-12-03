@@ -83,7 +83,7 @@ public class DetailProductFragment extends Fragment {
     private void setValueItem(){
         if (detailProduct != null){
             tvDetailProductName.setText(detailProduct.getProductName());
-            tvDetailProductPrice.setText(format.format(detailProduct.getProductPrice() ) + " VNĐ");
+            tvDetailProductPrice.setText( "₫ " +format.format(detailProduct.getProductPrice() ));
             Glide.with(getContext()).load(detailProduct.getUrlImg()).into(imgDetailProductPhoto);
             tvDetailProductDescription.setText(detailProduct.getDescription());
 
@@ -93,7 +93,7 @@ public class DetailProductFragment extends Fragment {
                 // Nếu sản  phẩm đã dc add
                 if (listCartProduct.get(i).getProductName().equals(detailProduct.getProductName())){
                     isAddToCart = true;
-                    btnDetailProductBuy.setText("Đã Mua");
+                    btnDetailProductBuy.setText("Đã Thêm");
                     btnDetailProductBuy.setBackgroundResource(R.drawable.custom_button_gray);
                     break;
                 }
@@ -107,7 +107,7 @@ public class DetailProductFragment extends Fragment {
                     }
                     else {
                         isAddToCart = true;
-                        btnDetailProductBuy.setText("Đã Mua");
+                        btnDetailProductBuy.setText("Đã Thêm");
                         btnDetailProductBuy.setBackgroundResource(R.drawable.custom_button_gray);
                         mainActivity.addToListCartProdct(detailProduct);
                         mainActivity.setCountProductInCart(mainActivity.getCountProduct() + 1);
