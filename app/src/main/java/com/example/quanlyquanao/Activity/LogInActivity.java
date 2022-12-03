@@ -68,18 +68,30 @@ public class LogInActivity extends AppCompatActivity {
     }
     public void LogIn(){
         GetDataFromEditText();
-        mAuth.signInWithEmailAndPassword(userString, passString).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    RememberPassWord();
-                    Toast.makeText(activity, "LogIn Successful", Toast.LENGTH_SHORT).show();
-                    ConvertFromLogInToHome();
-                }
-                else
-                    Log.w(TAG, "LogIn Failed", task.getException());
+        if(userString.isEmpty()){
+                userNameET.setError("Trống");
+                userNameET.requestFocus();
             }
-        });
+        else
+            if(passString.isEmpty()){
+                passET.setError("Trống");
+                passET.requestFocus();
+            }
+            else
+                mAuth.signInWithEmailAndPassword(userString, passString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(activity, "SignUp Successful", Toast.LENGTH_LONG).show();
+                            RememberPassWord();
+                            ConvertFromLogInToHome();
+                        }
+                        else {
+                            System.out.println(task.getException());
+                            Toast.makeText(activity, "Đăng nhập không thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
     public void ConvertFromLogInToSignUp(){
         Intent intent = new Intent(activity, SignUpActivity.class);
