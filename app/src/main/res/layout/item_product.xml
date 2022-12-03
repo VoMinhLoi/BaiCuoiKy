@@ -41,7 +41,9 @@
                 android:gravity="center_horizontal"
                 android:text="Áo polo"
                 android:textColor="@color/text_color"
-                android:textSize="10sp"></TextView>
+                android:textSize="10sp">
+
+            </TextView>
 
             <TextView
                 android:id="@+id/tv_product_price"

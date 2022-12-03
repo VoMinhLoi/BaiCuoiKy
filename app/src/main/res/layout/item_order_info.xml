@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/img_order_info"
-            android:text="Iphone 12"
+            android:text="Áo thun"
             android:textSize="10sp"
             android:textColor="@color/text_color">
         </TextView>
@@ -62,7 +62,7 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/img_order_info"
             android:layout_below="@+id/tv_order_info_text_num"
-            android:text="20.000.000 VND"
+            android:text="400.000 VND"
             android:textSize="10sp"
             android:textColor="@color/red">
         </TextView>
