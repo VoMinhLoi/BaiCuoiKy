@@ -26,9 +26,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignUpActivity extends AppCompatActivity {
     Activity activity = SignUpActivity.this;
     TextInputEditText userNameET;
-    EditText passET;
+    EditText passET, confirmET;
     Button signUpBT, logInBT;
-    String userString, passString;
+    String userString, passString, confirmString;
     FirebaseAuth mAuth;
 
     @Override
@@ -53,12 +53,14 @@ public class SignUpActivity extends AppCompatActivity {
     public void AnhXa(){
         userNameET = findViewById(R.id.usernameSU);
         passET = findViewById(R.id.passwordSU);
+        confirmET = findViewById(R.id.confirmPasswordSU);
         signUpBT = findViewById(R.id.buttonSignUp);
         logInBT = findViewById(R.id.buttonLogin);
     }
     public void GetData(){
         userString = userNameET.getText().toString();
         passString = passET.getText().toString();
+        confirmString = confirmET.getText().toString();
     }
     public void ConvertFromSignUpToLogIn(){
         Intent intent = new Intent(activity, LogInActivity.class);
@@ -66,17 +68,34 @@ public class SignUpActivity extends AppCompatActivity {
     }
     public void SignUp(){
         GetData();
-        mAuth.createUserWithEmailAndPassword(userString, passString).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(activity, "SignUp Successful", Toast.LENGTH_LONG).show();
-                    ConvertFromSignUpToLogIn();
-                }
-                else
-                    Log.w(TAG, "SignUp Failed", task.getException());
+        if(userString.isEmpty()){
+            userNameET.setError("Trống");
+            userNameET.requestFocus();
+        }
+        else
+            if(passString.isEmpty()){
+                passET.setError("Trống");
+                passET.requestFocus();
             }
-        });
+            else
+                if(passString.equals(confirmString))
+                    mAuth.createUserWithEmailAndPassword(userString, passString).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(activity, "SignUp Successful", Toast.LENGTH_LONG).show();
+                                ConvertFromSignUpToLogIn();
+                            }
+                            else{
+                                System.out.println(task.getException());
+                                Toast.makeText(activity, "Đăng ký không thành công", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                else{
+                    confirmET.setError("Mật khẩu không trùng khớp");
+                    confirmET.requestFocus();
+                }
     }
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable runnable = new Runnable() {
